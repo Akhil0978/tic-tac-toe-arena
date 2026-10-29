@@ -5,7 +5,16 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+const CLIENT_URL =
+  process.env.CLIENT_URL || "http://localhost:5173";
+
+app.use(
+  cors({
+    origin: CLIENT_URL,
+    methods: ["GET", "POST"],
+  })
+);
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -16,13 +25,20 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: CLIENT_URL,
     methods: ["GET", "POST"],
   },
 });
 
-// Room data
+// =============================
+// ROOM DATA
+// =============================
+
 const rooms = {};
+
+// =============================
+// CHECK WINNER
+// =============================
 
 const checkWinner = (board) => {
   const winningPatterns = [
@@ -51,10 +67,17 @@ const checkWinner = (board) => {
   return null;
 };
 
+// =============================
+// SOCKET.IO
+// =============================
+
 io.on("connection", (socket) => {
   console.log("Player connected:", socket.id);
 
-  // Create Room
+  // =============================
+  // CREATE ROOM
+  // =============================
+
   socket.on("createRoom", (roomId, callback) => {
     if (rooms[roomId]) {
       callback({
@@ -84,7 +107,10 @@ io.on("connection", (socket) => {
     );
   });
 
-  // Join Room
+  // =============================
+  // JOIN ROOM
+  // =============================
+
   socket.on("joinRoom", (roomId, callback) => {
     const room = rooms[roomId];
 
@@ -126,7 +152,10 @@ io.on("connection", (socket) => {
     );
   });
 
-  // Make Move
+  // =============================
+  // MAKE MOVE
+  // =============================
+
   socket.on("makeMove", ({ roomId, index }) => {
     const room = rooms[roomId];
 
@@ -137,22 +166,25 @@ io.on("connection", (socket) => {
     const playerIndex =
       room.players.indexOf(socket.id);
 
+    if (playerIndex === -1) {
+      return;
+    }
+
     const player =
       playerIndex === 0 ? "X" : "O";
 
-    // Not player's turn
     if (room.turn !== player) {
       return;
     }
 
-    // Cell already occupied
     if (room.board[index] !== null) {
       return;
     }
 
     room.board[index] = player;
 
-    const winner = checkWinner(room.board);
+    const winner =
+      checkWinner(room.board);
 
     const draw =
       !winner &&
@@ -173,7 +205,10 @@ io.on("connection", (socket) => {
     });
   });
 
-  // Restart game
+  // =============================
+  // RESTART GAME
+  // =============================
+
   socket.on("restartGame", (roomId) => {
     const room = rooms[roomId];
 
@@ -181,7 +216,9 @@ io.on("connection", (socket) => {
       return;
     }
 
-    room.board = Array(9).fill(null);
+    room.board =
+      Array(9).fill(null);
+
     room.turn = "X";
 
     io.to(roomId).emit("gameUpdate", {
@@ -192,6 +229,10 @@ io.on("connection", (socket) => {
     });
   });
 
+  // =============================
+  // DISCONNECT
+  // =============================
+
   socket.on("disconnect", () => {
     console.log(
       "Player disconnected:",
@@ -201,7 +242,9 @@ io.on("connection", (socket) => {
     for (const roomId in rooms) {
       const room = rooms[roomId];
 
-      if (room.players.includes(socket.id)) {
+      if (
+        room.players.includes(socket.id)
+      ) {
         room.players =
           room.players.filter(
             (id) => id !== socket.id
@@ -211,7 +254,9 @@ io.on("connection", (socket) => {
           "playerLeft"
         );
 
-        if (room.players.length === 0) {
+        if (
+          room.players.length === 0
+        ) {
           delete rooms[roomId];
         }
       }
@@ -219,8 +264,19 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log(
-    "Server running on http://localhost:3000"
-  );
-});
+// =============================
+// START SERVER
+// =============================
+
+const PORT =
+  process.env.PORT || 3000;
+
+server.listen(
+  PORT,
+  "0.0.0.0",
+  () => {
+    console.log(
+      `Server running on port ${PORT}`
+    );
+  }
+);
