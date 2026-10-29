@@ -1,0 +1,483 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #202046,
+      #090911 65%
+    );
+
+  color: white;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+/* =========================
+   HOME PAGE
+========================= */
+
+.home {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 25px;
+
+  text-align: center;
+}
+
+.home h1 {
+  font-size: 55px;
+  line-height: 1.25;
+
+  padding: 5px 0;
+
+  margin-bottom: 12px;
+
+  background: linear-gradient(
+    90deg,
+    #8b5cf6,
+    #38bdf8
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.home > p {
+  font-size: 20px;
+
+  color: #a5a5b8;
+
+  margin-bottom: 40px;
+}
+
+.mode-buttons {
+  display: flex;
+
+  gap: 25px;
+
+  flex-wrap: wrap;
+
+  justify-content: center;
+}
+
+.mode-buttons button {
+  width: 270px;
+  min-height: 95px;
+
+  padding: 20px;
+
+  border: 1px solid #34344f;
+
+  border-radius: 18px;
+
+  background: #161623;
+
+  color: white;
+
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    border 0.2s ease,
+    background 0.2s ease;
+}
+
+.mode-buttons button:hover {
+  transform: translateY(-5px);
+
+  border-color: #7c3aed;
+
+  background: #1f1f32;
+}
+
+/* =========================
+   GAME CONTAINER
+========================= */
+
+.game-container {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  padding: 25px;
+
+  text-align: center;
+}
+
+.game-container h1 {
+  font-size: 42px;
+
+  margin-bottom: 10px;
+}
+
+.game-container p {
+  color: #b4b4c3;
+
+  margin: 5px 0;
+}
+
+.game-container h2 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+
+  font-size: 22px;
+
+  color: #d8d8e8;
+}
+
+/* =========================
+   BOARD
+========================= */
+
+.board {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 105px);
+
+  gap: 10px;
+
+  margin: 30px 0;
+}
+
+.square {
+  width: 105px;
+  height: 105px;
+
+  border: 1px solid #34344c;
+
+  border-radius: 14px;
+
+  background: #171724;
+
+  color: white;
+
+  font-size: 48px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease,
+    border 0.15s ease;
+}
+
+.square:hover {
+  background: #202033;
+
+  border-color: #6366f1;
+
+  transform: scale(1.03);
+}
+
+/* =========================
+   GENERAL BUTTONS
+========================= */
+
+.reset-button,
+.main-button {
+  padding: 13px 28px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #4f46e5
+  );
+
+  color: white;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.reset-button:hover,
+.main-button:hover {
+  transform: translateY(-2px);
+}
+
+.back-button {
+  padding: 11px 24px;
+
+  border: 1px solid #3f3f55;
+
+  border-radius: 10px;
+
+  background: transparent;
+
+  color: #ddd;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border 0.2s ease;
+}
+
+.back-button:hover {
+  background: #1f1f2e;
+
+  border-color: #6366f1;
+}
+
+/* =========================
+   GAME ACTIONS
+========================= */
+
+.game-actions {
+  display: flex;
+
+  gap: 15px;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  margin-top: 10px;
+}
+
+/* =========================
+   DIFFICULTY
+========================= */
+
+.difficulty {
+  display: flex;
+
+  gap: 10px;
+
+  margin-top: 20px;
+}
+
+.difficulty-btn {
+  padding: 10px 22px;
+
+  border: 1px solid #3f3f55;
+
+  border-radius: 10px;
+
+  background: #171724;
+
+  color: #aaa;
+
+  cursor: pointer;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition:
+    background 0.2s ease,
+    border 0.2s ease,
+    color 0.2s ease;
+}
+
+.difficulty-btn:hover {
+  border-color: #6366f1;
+}
+
+.difficulty-btn.active {
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #4f46e5
+  );
+
+  color: white;
+
+  border-color: transparent;
+}
+
+/* =========================
+   MULTIPLAYER PAGE
+========================= */
+
+.multiplayer-container {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 25px;
+
+  text-align: center;
+}
+
+.multiplayer-container h1 {
+  font-size: 44px;
+
+  margin-bottom: 10px;
+}
+
+.multiplayer-container p {
+  color: #aaaabd;
+
+  max-width: 400px;
+
+  line-height: 1.5;
+}
+
+.multiplayer-container input {
+  width: 270px;
+
+  padding: 14px;
+
+  font-size: 16px;
+
+  border: 1px solid #37374c;
+
+  border-radius: 10px;
+
+  background: #151520;
+
+  color: white;
+
+  outline: none;
+
+  text-align: center;
+
+  letter-spacing: 2px;
+}
+
+.multiplayer-container input:focus {
+  border-color: #6366f1;
+}
+
+.multiplayer-container input::placeholder {
+  color: #77778c;
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider {
+  color: #77778c;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  margin: 5px;
+}
+
+/* =========================
+   ROOM CODE
+========================= */
+
+.room-code {
+  padding: 12px 22px;
+
+  margin: 10px 0;
+
+  border: 1px solid #37374c;
+
+  border-radius: 10px;
+
+  background: #171724;
+
+  color: #a78bfa;
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  letter-spacing: 4px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 500px) {
+  .home h1 {
+    font-size: 38px;
+  }
+
+  .home > p {
+    font-size: 17px;
+  }
+
+  .game-container h1 {
+    font-size: 34px;
+  }
+
+  .multiplayer-container h1 {
+    font-size: 34px;
+  }
+
+  .board {
+    grid-template-columns:
+      repeat(3, 85px);
+  }
+
+  .square {
+    width: 85px;
+    height: 85px;
+
+    font-size: 40px;
+  }
+
+  .mode-buttons {
+    flex-direction: column;
+  }
+
+  .mode-buttons button {
+    width: 240px;
+  }
+
+  .multiplayer-container input {
+    width: 240px;
+  }
+
+  .game-actions {
+    flex-direction: column;
+  }
+}
